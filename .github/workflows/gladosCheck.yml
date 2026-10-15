@@ -7,9 +7,13 @@ on:
     paths-ignore:
       - 'README.md'
       - 'imgs/**'
+  # 定时触发: GitHub 的 cron 按 UTC 解释, timezone 键会被静默忽略(无效)。
+  # 测试用: 每 5 分钟执行一次 ('*/5 * * * *'), 验证 schedule 是否能正常触发。
+  # 验证通过后改回每小时: cron '20 * * * *' (UTC 每小时第20分 = 北京时间 :28)。
+  # 若长期无 event=schedule 的运行记录, 说明 GitHub 自家 schedule 未生效,
+  # 建议改用外部定时调用 workflow_dispatch (见仓库 gh_dispatch.py)。
   schedule:
-    - cron: '20 * * * *'
-      timezone: 'Asia/Shanghai'
+    - cron: '*/5 * * * *'
 
 jobs:
   build:
